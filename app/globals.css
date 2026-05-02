@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body { background: #0a0a0a; color: #fafafa; }
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+  .container-page { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+  .neon-text {
+    background: linear-gradient(90deg, #ff2bd6, #22e2ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hairline { @apply border-white/10; }
+}
+
+/* lite-youtube minimal styles */
+lite-youtube {
+  background-color: #000;
+  position: relative;
+  display: block;
+  contain: content;
+  background-position: center center;
+  background-size: cover;
+  cursor: pointer;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+}
+lite-youtube::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.6), transparent 30%, transparent 70%, rgba(0,0,0,.6));
+}
+lite-youtube > .lty-playbtn {
+  width: 68px;
+  height: 48px;
+  background: rgba(0,0,0,.6);
+  z-index: 1;
+  border-radius: 12%;
+  border: 0;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  cursor: pointer;
+  transition: background .15s;
+}
+lite-youtube:hover > .lty-playbtn { background: #ff2bd6; }
+lite-youtube > .lty-playbtn::before {
+  content: "";
+  border-style: solid;
+  border-width: 11px 0 11px 19px;
+  border-color: transparent transparent transparent #fff;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+lite-youtube.lyt-activated { cursor: unset; }
+lite-youtube.lyt-activated::before,
+lite-youtube.lyt-activated > .lty-playbtn { opacity: 0; pointer-events: none; }
