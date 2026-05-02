@@ -33,6 +33,18 @@ The site renders with built-in sample content out of the box. Connect Sanity + S
 - `/contact` — form posting to Supabase + contact info
 - `/studio` — Sanity Studio (auth-gated by Sanity)
 
+## Project credentials
+
+**Supabase**
+
+- Project URL: `https://fekkytjlcmjenwcrxxmt.supabase.co`
+- anon (public) key:
+  ```
+  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZla2t5dGpsY21qZW53Y3J4eG10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MzAzODIsImV4cCI6MjA5MzMwNjM4Mn0.K0bDrczehPA3-Q0TSCE6dyL2OSiGgHm5Tp4wtT4EDzs
+  ```
+
+> The anon key is public-by-design — Supabase Row Level Security (already enabled on `leads`) is what protects the data. **Never commit the `service_role` key.** Put it only in `.env.local` (gitignored) and in Vercel project env vars.
+
 ## Environment
 
 Fill `.env.local` with:
