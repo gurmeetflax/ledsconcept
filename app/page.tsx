@@ -3,7 +3,6 @@ import { SectorGrid } from "@/components/sections/sector-grid";
 import { FeaturedProjects } from "@/components/sections/featured-projects";
 import { ProductsStrip } from "@/components/sections/products-strip";
 import { ReelsSection } from "@/components/sections/reels-section";
-import { InstagramSection } from "@/components/sections/instagram-section";
 import { MadrixStrip } from "@/components/sections/madrix-strip";
 import { CTA } from "@/components/sections/cta";
 import { getFeaturedProjects, getProducts, getSectors, getSiteSettings } from "@/lib/content";
@@ -25,7 +24,6 @@ export default async function HomePage() {
       <FeaturedProjects projects={projects} />
       <ReelsSection feedId={settings.beholdFeedId || "awDA3WLI489BQxzHqzAX"} />
       <ProductsStrip products={products} />
-      <InstagramSection widgetId={settings.instagramWidgetId} />
       <MadrixStrip />
       <CTA />
     </>
