@@ -36,7 +36,7 @@ export const queries = {
     "image": heroImage.asset->url
   }`,
   projectBySlug: `*[_type == "project" && slug.current == $slug][0]{
-    _id, title, "slug": slug.current, year, location, summary, body, video, gearUsed,
+    _id, title, "slug": slug.current, year, location, summary, body, zones, video, gearUsed,
     "sector": sector->name, "image": heroImage.asset->url,
     "headerVideo": headerVideo.asset->url,
     "gallery": gallery[].asset->url

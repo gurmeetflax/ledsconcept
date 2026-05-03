@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import { LiteYouTube } from "@/components/lite-youtube";
 import { LightboxGrid } from "@/components/lightbox-grid";
 import { SanityImage } from "@/components/sanity-image";
+import { CaseStudy } from "@/components/case-study";
 import { getAllProjects, getProjectBySlug } from "@/lib/content";
+import type { PortableTextBlock } from "@portabletext/react";
 
 export const revalidate = 60;
 
@@ -26,6 +28,8 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
         gearUsed?: string[];
         video?: string;
         gallery?: string[];
+        body?: PortableTextBlock[];
+        zones?: { zone: string; treatment: string }[];
       })
     | null;
   if (!p) notFound();
@@ -76,6 +80,8 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
         </aside>
       </div>
 
+      <CaseStudy body={p.body} zones={p.zones} />
+
       {!!p.gallery?.length && (
         <div className="container-page pb-16">
           <LightboxGrid items={p.gallery} layout="grid" />
@@ -84,7 +90,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
       {p.video && (
         <div className="container-page pb-16">
-          <div className="overflow-hidden rounded-2xl border border-white/10">
+          <div className="mx-auto max-w-3xl overflow-hidden rounded-2xl border border-white/10">
             <LiteYouTube videoId={p.video} title={`${p.title} video`} />
           </div>
         </div>

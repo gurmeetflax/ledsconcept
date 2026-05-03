@@ -13,7 +13,37 @@ export const project = defineType({
     { name: "year", title: "Year", type: "number" },
     { name: "location", title: "Location", type: "string" },
     { name: "summary", title: "Summary", type: "text", rows: 3 },
-    { name: "body", title: "Case study", type: "array", of: [{ type: "block" }] },
+    {
+      name: "body",
+      title: "Case study",
+      type: "array",
+      of: [
+        {
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "Section (H2)", value: "h2" },
+            { title: "Subsection (H3)", value: "h3" },
+          ],
+        },
+      ],
+    },
+    {
+      name: "zones",
+      title: "Zones",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          name: "zone",
+          fields: [
+            { name: "zone", title: "Zone", type: "string", validation: (r) => r.required() },
+            { name: "treatment", title: "Treatment", type: "string", validation: (r) => r.required() },
+          ],
+          preview: { select: { title: "zone", subtitle: "treatment" } },
+        },
+      ],
+    },
     { name: "heroImage", title: "Hero image", type: "image", options: { hotspot: true } },
     {
       name: "headerVideo",
