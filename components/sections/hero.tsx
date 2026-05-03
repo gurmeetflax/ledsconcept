@@ -1,10 +1,20 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-export function Hero({ youtubeId }: { youtubeId?: string }) {
+export function Hero({ youtubeId, videoUrl }: { youtubeId?: string; videoUrl?: string }) {
   return (
     <section className="relative min-h-[88vh] overflow-hidden">
-      {youtubeId ? (
+      {videoUrl ? (
+        <video
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+          src={videoUrl}
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden
+        />
+      ) : youtubeId ? (
         <iframe
           className="pointer-events-none absolute inset-0 h-full w-full scale-[1.4]"
           src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&playsinline=1&playlist=${youtubeId}`}

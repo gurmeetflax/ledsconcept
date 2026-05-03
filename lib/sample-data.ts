@@ -146,6 +146,7 @@ export const sampleSiteSettings = {
   twitter: "https://twitter.com/ledsconcept",
   instagramWidgetId: "",
   youtubeHeroId: "ScMzIvxBSi4",
+  heroVideo: "",
   brochure: "",
 };
 
