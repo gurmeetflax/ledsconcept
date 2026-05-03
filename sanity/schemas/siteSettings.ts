@@ -14,6 +14,7 @@ export const siteSettings = defineType({
     { name: "facebook", title: "Facebook URL", type: "url" },
     { name: "twitter", title: "Twitter / X URL", type: "url" },
     { name: "instagramWidgetId", title: "Elfsight Instagram widget ID", type: "string" },
+    { name: "beholdFeedId", title: "Behold Instagram feed ID", type: "string", description: "Feed ID from behold.so widget embed code (the feed-id attribute)." },
     { name: "youtubeHeroId", title: "Hero YouTube video ID", type: "string" },
     {
       name: "heroVideo",

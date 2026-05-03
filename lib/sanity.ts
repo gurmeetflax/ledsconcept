@@ -55,7 +55,7 @@ export const queries = {
   siteSettings: `*[_type == "siteSettings"][0]{
     tagline, address, phone, email,
     instagram, youtube, facebook, twitter,
-    instagramWidgetId, youtubeHeroId,
+    instagramWidgetId, beholdFeedId, youtubeHeroId,
     "heroVideo": heroVideo.asset->url,
     "brochure": brochure.asset->url
   }`,
