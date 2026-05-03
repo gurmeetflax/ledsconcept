@@ -26,7 +26,7 @@ export default async function HomePage() {
       <FeaturedProjects projects={projects} />
       <ProductsStrip products={products} />
       <YouTubeReel videoId={settings.youtubeHeroId || "ScMzIvxBSi4"} />
-      <ReelsSection feedId={settings.beholdFeedId} />
+      <ReelsSection feedId={settings.beholdFeedId || "awDA3WLI489BQxzHqzAX"} />
       <InstagramSection widgetId={settings.instagramWidgetId} />
       <MadrixStrip />
       <CTA />
