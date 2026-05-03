@@ -9,7 +9,7 @@ export default async function ContactPage() {
   return (
     <div className="container-page py-16 md:py-24">
       <p className="text-xs uppercase tracking-[0.3em] text-white/50">Contact</p>
-      <h1 className="mt-2 font-display text-4xl md:text-6xl">Let's talk.</h1>
+      <h1 className="mt-2 font-display text-3xl sm:text-4xl md:text-6xl">Let's talk.</h1>
 
       <div className="mt-12 grid gap-12 md:grid-cols-[1.3fr_1fr]">
         <ContactForm />

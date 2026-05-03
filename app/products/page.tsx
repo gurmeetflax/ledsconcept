@@ -16,7 +16,7 @@ export default async function ProductsPage({
   return (
     <div className="container-page py-16 md:py-24">
       <p className="text-xs uppercase tracking-[0.3em] text-white/50">Hardware & control</p>
-      <h1 className="mt-2 font-display text-4xl md:text-6xl">Products</h1>
+      <h1 className="mt-2 font-display text-3xl sm:text-4xl md:text-6xl">Products</h1>
 
       <div className="mt-10 grid gap-10 md:grid-cols-[220px_1fr]">
         <aside className="space-y-1 md:sticky md:top-24 md:h-fit">

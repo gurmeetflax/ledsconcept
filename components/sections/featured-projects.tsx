@@ -4,11 +4,11 @@ import type { Project } from "@/lib/sample-data";
 
 export function FeaturedProjects({ projects }: { projects: Project[] }) {
   return (
-    <section className="container-page py-20 md:py-28">
+    <section className="container-page py-14 md:py-28">
       <div className="mb-10 flex items-end justify-between gap-6">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-white/50">Selected projects</p>
-          <h2 className="mt-2 font-display text-3xl md:text-5xl">Recent installations.</h2>
+          <h2 className="mt-2 font-display text-2xl sm:text-3xl md:text-5xl">Recent installations.</h2>
         </div>
         <Link href="/projects" className="hidden items-center gap-2 text-sm text-white/70 hover:text-white md:inline-flex">
           View all <ArrowRight className="size-4" />

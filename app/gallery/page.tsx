@@ -11,7 +11,7 @@ export default async function GalleryPage() {
   return (
     <div className="container-page py-16 md:py-24">
       <p className="text-xs uppercase tracking-[0.3em] text-white/50">Visuals</p>
-      <h1 className="mt-2 font-display text-4xl md:text-6xl">Gallery</h1>
+      <h1 className="mt-2 font-display text-3xl sm:text-4xl md:text-6xl">Gallery</h1>
 
       <div className="mt-10 columns-2 gap-3 md:columns-3 lg:columns-4 [&>*]:mb-3 [&>*]:break-inside-avoid">
         {images.map((src, i) => (

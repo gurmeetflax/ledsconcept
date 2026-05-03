@@ -3,11 +3,11 @@ import type { Product } from "@/lib/sample-data";
 
 export function ProductsStrip({ products }: { products: Product[] }) {
   return (
-    <section className="border-y border-white/5 bg-white/[0.02] py-20">
+    <section className="border-y border-white/5 bg-white/[0.02] py-14 md:py-20">
       <div className="container-page mb-8 flex items-end justify-between gap-6">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-white/50">Hardware & control</p>
-          <h2 className="mt-2 font-display text-3xl md:text-5xl">Products we supply.</h2>
+          <h2 className="mt-2 font-display text-2xl sm:text-3xl md:text-5xl">Products we supply.</h2>
         </div>
         <Link href="/products" className="text-sm text-white/70 hover:text-white">Browse catalog →</Link>
       </div>

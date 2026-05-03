@@ -4,11 +4,11 @@ import { ArrowUpRight } from "lucide-react";
 
 export function SectorGrid({ sectors }: { sectors: Sector[] }) {
   return (
-    <section className="container-page py-20 md:py-28">
+    <section className="container-page py-14 md:py-28">
       <div className="mb-10 flex items-end justify-between gap-6">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-white/50">What we light</p>
-          <h2 className="mt-2 font-display text-3xl md:text-5xl">Three worlds, one canvas.</h2>
+          <h2 className="mt-2 font-display text-2xl sm:text-3xl md:text-5xl">Three worlds, one canvas.</h2>
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
