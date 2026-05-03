@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { SanityImage } from "@/components/sanity-image";
 import type { Project } from "@/lib/sample-data";
 
 export function FeaturedProjects({ projects }: { projects: Project[] }) {
@@ -21,10 +22,12 @@ export function FeaturedProjects({ projects }: { projects: Project[] }) {
             href={`/projects/${p.slug}`}
             className="group relative overflow-hidden rounded-2xl border border-white/10"
           >
-            <div
-              className="absolute inset-0 bg-cover bg-center transition duration-700 group-hover:scale-105"
-              style={{ backgroundImage: `url(${p.image})` }}
-              aria-hidden
+            <SanityImage
+              src={p.image}
+              alt={p.title}
+              fill
+              sizes="(min-width: 768px) 33vw, 50vw"
+              className="object-cover transition duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent" aria-hidden />
             <div className="absolute inset-0 flex flex-col justify-end p-5">

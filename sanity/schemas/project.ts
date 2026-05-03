@@ -20,7 +20,7 @@ export const project = defineType({
       title: "Header video (MP4, muted loop)",
       type: "file",
       options: { accept: "video/mp4,video/webm" },
-      description: "Small self-hosted clip (~5–10 MB, no audio) that plays as the page header background. Falls back to hero image if missing.",
+      description: "Small self-hosted clip (~5–10 MB, no audio) that plays as the page header background. Hero image is still required as the poster/thumbnail across the site.",
     },
     { name: "gallery", title: "Gallery", type: "array", of: [{ type: "image", options: { hotspot: true } }] },
     { name: "video", title: "YouTube video ID", type: "string", description: "Just the ID (e.g. ScMzIvxBSi4)" },

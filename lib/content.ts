@@ -13,20 +13,17 @@ import {
 
 const hasSanity = !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
-// Append Sanity image-pipeline params so we serve optimized WebP/AVIF
-// instead of multi-MB originals. Skips non-Sanity URLs (e.g. unsplash fallbacks).
-function img(url: string | undefined | null, w = 1600, q = 75): string {
-  if (!url) return "";
-  if (!url.includes("cdn.sanity.io")) return url;
-  const sep = url.includes("?") ? "&" : "?";
-  return `${url}${sep}w=${w}&q=${q}&auto=format&fit=max`;
+// Pass URLs through untouched. Width/quality negotiation is handled by
+// next/image + the SanityImage wrapper (which appends auto=format&fit=max).
+function img(url: string | undefined | null): string {
+  return url ?? "";
 }
 
-function optimizeProject<T extends { image?: string; gallery?: string[] }>(p: T, heroW = 1600): T {
+function optimizeProject<T extends { image?: string; gallery?: string[] }>(p: T): T {
   return {
     ...p,
-    image: img(p.image, heroW),
-    gallery: p.gallery?.map((g) => img(g, 1600)),
+    image: img(p.image),
+    gallery: p.gallery?.map((g) => img(g)),
   };
 }
 
@@ -34,21 +31,21 @@ export async function getSectors(): Promise<Sector[]> {
   if (!hasSanity) return sampleSectors;
   const data = await sanityFetch<Sector[]>(queries.sectors);
   if (!data?.length) return sampleSectors;
-  return data.map((s) => ({ ...s, image: img(s.image, 1200) }));
+  return data.map((s) => ({ ...s, image: img(s.image) }));
 }
 
 export async function getFeaturedProjects(): Promise<Project[]> {
   if (!hasSanity) return sampleProjects.slice(0, 6);
   const data = await sanityFetch<Project[]>(queries.featuredProjects);
   if (!data?.length) return sampleProjects.slice(0, 6);
-  return data.map((p) => optimizeProject(p, 1600));
+  return data.map((p) => optimizeProject(p));
 }
 
 export async function getAllProjects(): Promise<Project[]> {
   if (!hasSanity) return sampleProjects;
   const data = await sanityFetch<Project[]>(queries.allProjects);
   if (!data?.length) return sampleProjects;
-  return data.map((p) => optimizeProject(p, 1200));
+  return data.map((p) => optimizeProject(p));
 }
 
 export async function getProjectBySlug(slug: string) {
@@ -69,14 +66,14 @@ export async function getProjectBySlug(slug: string) {
     { slug },
   );
   if (!p) return null;
-  return optimizeProject(p, 2000);
+  return optimizeProject(p);
 }
 
 export async function getProducts(): Promise<Product[]> {
   if (!hasSanity) return sampleProducts;
   const data = await sanityFetch<Product[]>(queries.products);
   if (!data?.length) return sampleProducts;
-  return data.map((p) => ({ ...p, image: img(p.image, 800) }));
+  return data.map((p) => ({ ...p, image: img(p.image) }));
 }
 
 export async function getProductCategories() {

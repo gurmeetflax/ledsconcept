@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SanityImage } from "@/components/sanity-image";
 import type { Sector } from "@/lib/sample-data";
 import { ArrowUpRight } from "lucide-react";
 
@@ -18,10 +19,12 @@ export function SectorGrid({ sectors }: { sectors: Sector[] }) {
             href={`/projects?sector=${s.slug}`}
             className="group relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10"
           >
-            <div
-              className="absolute inset-0 bg-cover bg-center transition duration-700 group-hover:scale-105"
-              style={{ backgroundImage: `url(${s.image})` }}
-              aria-hidden
+            <SanityImage
+              src={s.image}
+              alt={s.name}
+              fill
+              sizes="(min-width: 768px) 33vw, 100vw"
+              className="object-cover transition duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" aria-hidden />
             <div className="absolute inset-0 flex flex-col justify-end p-6">

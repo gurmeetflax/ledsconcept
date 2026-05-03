@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { SanityImage } from "@/components/sanity-image";
 import { getProducts } from "@/lib/content";
 import { sampleProducts } from "@/lib/sample-data";
 
@@ -19,7 +20,16 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
     <div className="container-page py-16 md:py-24">
       <Link href="/products" className="text-sm text-white/60 hover:text-white">← Products</Link>
       <div className="mt-6 grid gap-10 md:grid-cols-2">
-        <div className="aspect-square rounded-2xl bg-cover bg-center" style={{ backgroundImage: `url(${p.image})` }} />
+        <div className="relative aspect-square overflow-hidden rounded-2xl">
+          <SanityImage
+            src={p.image}
+            alt={p.title}
+            fill
+            priority
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover"
+          />
+        </div>
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-white/50">{p.category}</p>
           <h1 className="mt-2 font-display text-3xl md:text-5xl">{p.title}</h1>
