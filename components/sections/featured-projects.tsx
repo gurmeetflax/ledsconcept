@@ -14,15 +14,12 @@ export function FeaturedProjects({ projects }: { projects: Project[] }) {
           View all <ArrowRight className="size-4" />
         </Link>
       </div>
-      <div className="grid auto-rows-[280px] grid-cols-2 gap-4 md:grid-cols-4 md:auto-rows-[320px]">
-        {projects.map((p, i) => (
+      <div className="grid auto-rows-[280px] grid-cols-2 gap-4 md:auto-rows-[320px] md:grid-cols-3">
+        {projects.map((p) => (
           <Link
             key={p._id}
             href={`/projects/${p.slug}`}
-            className={[
-              "group relative overflow-hidden rounded-2xl border border-white/10",
-              i === 0 || i === 3 ? "md:col-span-2 md:row-span-2" : "",
-            ].join(" ")}
+            className="group relative overflow-hidden rounded-2xl border border-white/10"
           >
             <div
               className="absolute inset-0 bg-cover bg-center transition duration-700 group-hover:scale-105"
