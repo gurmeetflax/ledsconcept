@@ -54,7 +54,7 @@ export const queries = {
   }`,
   gallery: `*[_type == "galleryItem"]|order(_createdAt desc){ _id, "image": image.asset->url, caption }`,
   siteSettings: `*[_type == "siteSettings"][0]{
-    tagline, address, phone, email,
+    tagline, address, phone, email, whatsapp, whatsappMessage,
     instagram, youtube, facebook, twitter,
     instagramWidgetId, beholdFeedId, youtubeHeroId,
     "heroVideo": heroVideo.asset->url,

@@ -139,6 +139,8 @@ export const sampleSiteSettings = {
   tagline: "The world of pixels is limitless",
   address: "Mumbai, India",
   phone: "+91 00000 00000",
+  whatsapp: "+91 00000 00000",
+  whatsappMessage: "Hi! I'd like to discuss a lighting project.",
   email: "hello@ledsconcept.com",
   instagram: "https://instagram.com/ledsconcept",
   youtube: "https://youtube.com/@ledsconcept",

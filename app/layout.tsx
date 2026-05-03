@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 import { getSiteSettings } from "@/lib/content";
 
 const body = Inter({ subsets: ["latin"], variable: "--font-body" });
@@ -29,6 +30,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <SiteNav />
         <main>{children}</main>
         <SiteFooter settings={settings} />
+        <WhatsAppButton
+          number={settings.whatsapp || settings.phone}
+          message={settings.whatsappMessage}
+        />
       </body>
     </html>
   );
