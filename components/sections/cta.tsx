@@ -3,12 +3,12 @@ import { ArrowRight } from "lucide-react";
 
 export function CTA() {
   return (
-    <section className="container-page py-24">
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-10 md:p-16">
+    <section className="container-page py-14 md:py-24">
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-10 md:p-16">
         <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-neon-magenta/30 blur-3xl" aria-hidden />
         <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-neon-cyan/30 blur-3xl" aria-hidden />
         <div className="relative">
-          <h2 className="max-w-2xl font-display text-3xl text-balance md:text-5xl">
+          <h2 className="max-w-2xl font-display text-2xl text-balance sm:text-3xl md:text-5xl">
             Ready to light up your space?
           </h2>
           <p className="mt-4 max-w-xl text-white/70">
