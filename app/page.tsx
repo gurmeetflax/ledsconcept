@@ -20,7 +20,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero youtubeId={settings.youtubeHeroId} />
+      <Hero youtubeId={settings.youtubeHeroId} videoUrl={settings.heroVideo} />
       <SectorGrid sectors={sectors} />
       <FeaturedProjects projects={projects} />
       <ProductsStrip products={products} />

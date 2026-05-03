@@ -15,6 +15,13 @@ export const siteSettings = defineType({
     { name: "twitter", title: "Twitter / X URL", type: "url" },
     { name: "instagramWidgetId", title: "Elfsight Instagram widget ID", type: "string" },
     { name: "youtubeHeroId", title: "Hero YouTube video ID", type: "string" },
+    {
+      name: "heroVideo",
+      title: "Hero video (MP4)",
+      type: "file",
+      options: { accept: "video/mp4,video/webm" },
+      description: "Self-hosted background video. Takes priority over YouTube ID and avoids YouTube's play button.",
+    },
     { name: "brochure", title: "E-brochure (PDF)", type: "file" },
   ],
 });
