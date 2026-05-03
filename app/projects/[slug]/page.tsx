@@ -3,9 +3,7 @@ import { notFound } from "next/navigation";
 import { LiteYouTube } from "@/components/lite-youtube";
 import { LightboxGrid } from "@/components/lightbox-grid";
 import { SanityImage } from "@/components/sanity-image";
-import { CaseStudy } from "@/components/case-study";
 import { getAllProjects, getProjectBySlug } from "@/lib/content";
-import type { PortableTextBlock } from "@portabletext/react";
 
 export const revalidate = 60;
 
@@ -28,8 +26,6 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
         gearUsed?: string[];
         video?: string;
         gallery?: string[];
-        body?: PortableTextBlock[];
-        zones?: { zone: string; treatment: string }[];
       })
     | null;
   if (!p) notFound();
@@ -79,8 +75,6 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
           </ul>
         </aside>
       </div>
-
-      <CaseStudy body={p.body} zones={p.zones} />
 
       {!!p.gallery?.length && (
         <div className="container-page pb-16">

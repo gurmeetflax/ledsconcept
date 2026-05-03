@@ -28,22 +28,6 @@ export const project = defineType({
         },
       ],
     },
-    {
-      name: "zones",
-      title: "Zones",
-      type: "array",
-      of: [
-        {
-          type: "object",
-          name: "zone",
-          fields: [
-            { name: "zone", title: "Zone", type: "string", validation: (r) => r.required() },
-            { name: "treatment", title: "Treatment", type: "string", validation: (r) => r.required() },
-          ],
-          preview: { select: { title: "zone", subtitle: "treatment" } },
-        },
-      ],
-    },
     { name: "heroImage", title: "Hero image", type: "image", options: { hotspot: true } },
     {
       name: "headerVideo",
