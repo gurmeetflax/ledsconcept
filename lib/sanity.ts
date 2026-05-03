@@ -36,7 +36,7 @@ export const queries = {
     "image": heroImage.asset->url
   }`,
   projectBySlug: `*[_type == "project" && slug.current == $slug][0]{
-    _id, title, "slug": slug.current, year, location, summary, body, video, gearUsed,
+    _id, title, "slug": slug.current, year, location, summary, body, zones, video, gearUsed,
     "sector": sector->name, "image": heroImage.asset->url,
     "headerVideo": headerVideo.asset->url,
     "gallery": gallery[].asset->url
@@ -54,7 +54,7 @@ export const queries = {
   }`,
   gallery: `*[_type == "galleryItem"]|order(_createdAt desc){ _id, "image": image.asset->url, caption }`,
   siteSettings: `*[_type == "siteSettings"][0]{
-    tagline, address, phone, email,
+    tagline, address, phone, email, whatsapp, whatsappMessage,
     instagram, youtube, facebook, twitter,
     instagramWidgetId, beholdFeedId, youtubeHeroId,
     "heroVideo": heroVideo.asset->url,

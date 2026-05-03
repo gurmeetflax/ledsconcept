@@ -8,6 +8,18 @@ export const siteSettings = defineType({
     { name: "tagline", title: "Tagline", type: "string" },
     { name: "address", title: "Address", type: "text", rows: 2 },
     { name: "phone", title: "Phone", type: "string" },
+    {
+      name: "whatsapp",
+      title: "WhatsApp number",
+      type: "string",
+      description: "Include country code, e.g. +91 98xxxxxxxx. Leave blank to hide the chat button.",
+    },
+    {
+      name: "whatsappMessage",
+      title: "WhatsApp pre-filled message",
+      type: "string",
+      description: "Optional. Defaults to a generic enquiry message.",
+    },
     { name: "email", title: "Email", type: "string" },
     { name: "instagram", title: "Instagram URL", type: "url" },
     { name: "youtube", title: "YouTube URL", type: "url" },

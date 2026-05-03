@@ -7,7 +7,7 @@ export function YouTubeReel({ videoId }: { videoId: string }) {
         <p className="text-xs uppercase tracking-[0.3em] text-white/50">Reel</p>
         <h2 className="mt-2 font-display text-2xl sm:text-3xl md:text-5xl">See it move.</h2>
       </div>
-      <div className="overflow-hidden rounded-2xl border border-white/10">
+      <div className="mx-auto max-w-3xl overflow-hidden rounded-2xl border border-white/10">
         <LiteYouTube videoId={videoId} title="LEDs Concept reel" />
       </div>
     </section>
