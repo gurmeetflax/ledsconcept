@@ -19,6 +19,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
         location: string;
         sector: string;
         image: string;
+        headerVideo?: string;
         summary?: string;
         gearUsed?: string[];
         video?: string;
@@ -29,14 +30,29 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
 
   return (
     <article>
-      <div
-        className="relative h-[60vh] min-h-[420px] w-full bg-cover bg-center"
-        style={{ backgroundImage: `url(${p.image})` }}
-      >
+      <div className="relative h-[60vh] min-h-[420px] w-full overflow-hidden">
+        {p.headerVideo ? (
+          <video
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            src={p.headerVideo}
+            poster={p.image}
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-hidden
+          />
+        ) : (
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${p.image})` }}
+            aria-hidden
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/20 to-ink" />
         <div className="container-page absolute inset-x-0 bottom-10">
           <p className="text-xs uppercase tracking-[0.3em] text-white/60">{p.sector} · {p.year} · {p.location}</p>
-          <h1 className="mt-3 font-display text-4xl md:text-7xl">{p.title}</h1>
+          <h1 className="mt-3 font-display text-3xl sm:text-5xl md:text-7xl">{p.title}</h1>
         </div>
       </div>
 

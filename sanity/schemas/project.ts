@@ -15,6 +15,13 @@ export const project = defineType({
     { name: "summary", title: "Summary", type: "text", rows: 3 },
     { name: "body", title: "Case study", type: "array", of: [{ type: "block" }] },
     { name: "heroImage", title: "Hero image", type: "image", options: { hotspot: true } },
+    {
+      name: "headerVideo",
+      title: "Header video (MP4, muted loop)",
+      type: "file",
+      options: { accept: "video/mp4,video/webm" },
+      description: "Small self-hosted clip (~5–10 MB, no audio) that plays as the page header background. Falls back to hero image if missing.",
+    },
     { name: "gallery", title: "Gallery", type: "array", of: [{ type: "image", options: { hotspot: true } }] },
     { name: "video", title: "YouTube video ID", type: "string", description: "Just the ID (e.g. ScMzIvxBSi4)" },
     { name: "gearUsed", title: "Gear used", type: "array", of: [{ type: "string" }] },
