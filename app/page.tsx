@@ -23,8 +23,8 @@ export default async function HomePage() {
       <Hero youtubeId={settings.youtubeHeroId} videoUrl={settings.heroVideo} />
       <SectorGrid sectors={sectors} />
       <FeaturedProjects projects={projects} />
-      <ProductsStrip products={products} />
       <ReelsSection feedId={settings.beholdFeedId || "awDA3WLI489BQxzHqzAX"} />
+      <ProductsStrip products={products} />
       <InstagramSection widgetId={settings.instagramWidgetId} />
       <MadrixStrip />
       <CTA />
