@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LiteYouTube } from "@/components/lite-youtube";
+import { LightboxGrid } from "@/components/lightbox-grid";
+import { SanityImage } from "@/components/sanity-image";
 import { getAllProjects, getProjectBySlug } from "@/lib/content";
 
 export const revalidate = 60;
@@ -43,10 +45,13 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
             aria-hidden
           />
         ) : (
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${p.image})` }}
-            aria-hidden
+          <SanityImage
+            src={p.image}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/20 to-ink" />
@@ -72,14 +77,8 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
       </div>
 
       {!!p.gallery?.length && (
-        <div className="container-page grid grid-cols-2 gap-3 pb-16 md:grid-cols-3">
-          {p.gallery.map((src, i) => (
-            <div
-              key={i}
-              className="aspect-[4/3] rounded-xl bg-cover bg-center"
-              style={{ backgroundImage: `url(${src})` }}
-            />
-          ))}
+        <div className="container-page pb-16">
+          <LightboxGrid items={p.gallery} layout="grid" />
         </div>
       )}
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 export function Hero({ youtubeId, videoUrl }: { youtubeId?: string; videoUrl?: string }) {
@@ -22,10 +23,13 @@ export function Hero({ youtubeId, videoUrl }: { youtubeId?: string; videoUrl?: s
           aria-hidden
         />
       ) : (
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url(https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=2000&q=80)" }}
-          aria-hidden
+        <Image
+          src="https://images.unsplash.com/photo-1518709268805-4e9042af2176"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/20 to-ink" aria-hidden />

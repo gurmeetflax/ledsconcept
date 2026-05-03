@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SanityImage } from "@/components/sanity-image";
 import { getProductCategories, getProducts } from "@/lib/content";
 
 export const revalidate = 60;
@@ -43,10 +44,15 @@ export default async function ProductsPage({
               href={`/products/${p.slug}`}
               className="group rounded-2xl border border-white/10 bg-white/[0.02] p-3 hover:border-white/30"
             >
-              <div
-                className="aspect-square w-full rounded-xl bg-cover bg-center"
-                style={{ backgroundImage: `url(${p.image})` }}
-              />
+              <div className="relative aspect-square w-full overflow-hidden rounded-xl">
+                <SanityImage
+                  src={p.image}
+                  alt={p.title}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
               <div className="px-1 pt-3">
                 <p className="text-[10px] uppercase tracking-widest text-white/50">{p.category}</p>
                 <h3 className="mt-1 font-display text-lg">{p.title}</h3>

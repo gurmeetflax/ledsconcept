@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SanityImage } from "@/components/sanity-image";
 import { getAllProjects, getSectors } from "@/lib/content";
 
 export const revalidate = 60;
@@ -45,10 +46,15 @@ export default async function ProjectsPage({
             href={`/projects/${p.slug}`}
             className="group overflow-hidden rounded-2xl border border-white/10"
           >
-            <div
-              className="aspect-[4/5] bg-cover bg-center transition duration-700 group-hover:scale-105"
-              style={{ backgroundImage: `url(${p.image})` }}
-            />
+            <div className="relative aspect-[4/5] overflow-hidden">
+              <SanityImage
+                src={p.image}
+                alt={p.title}
+                fill
+                sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+                className="object-cover transition duration-700 group-hover:scale-105"
+              />
+            </div>
             <div className="p-4">
               <p className="text-[10px] uppercase tracking-widest text-white/50">{p.sector} · {p.year}</p>
               <h3 className="mt-1 font-display text-lg">{p.title}</h3>
