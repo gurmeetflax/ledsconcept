@@ -38,6 +38,7 @@ export const queries = {
   projectBySlug: `*[_type == "project" && slug.current == $slug][0]{
     _id, title, "slug": slug.current, year, location, summary, body, video, gearUsed,
     "sector": sector->name, "image": heroImage.asset->url,
+    "headerVideo": headerVideo.asset->url,
     "gallery": gallery[].asset->url
   }`,
   sectors: `*[_type == "sector"]|order(name asc){ _id, name, "slug": slug.current, description, "image": image.asset->url }`,
