@@ -2,7 +2,6 @@ import { Hero } from "@/components/sections/hero";
 import { SectorGrid } from "@/components/sections/sector-grid";
 import { FeaturedProjects } from "@/components/sections/featured-projects";
 import { ProductsStrip } from "@/components/sections/products-strip";
-import { YouTubeReel } from "@/components/sections/youtube-reel";
 import { ReelsSection } from "@/components/sections/reels-section";
 import { InstagramSection } from "@/components/sections/instagram-section";
 import { MadrixStrip } from "@/components/sections/madrix-strip";
@@ -25,7 +24,6 @@ export default async function HomePage() {
       <SectorGrid sectors={sectors} />
       <FeaturedProjects projects={projects} />
       <ProductsStrip products={products} />
-      <YouTubeReel videoId={settings.youtubeHeroId || "ScMzIvxBSi4"} />
       <ReelsSection feedId={settings.beholdFeedId || "awDA3WLI489BQxzHqzAX"} />
       <InstagramSection widgetId={settings.instagramWidgetId} />
       <MadrixStrip />
