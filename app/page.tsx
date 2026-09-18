@@ -28,10 +28,10 @@ export default async function HomePage() {
   return (
     <>
       <Hero youtubeId={settings.youtubeHeroId} videoUrl={settings.heroVideo} />
-      <SectorGrid sectors={sectors} />
-      <FeaturedProjects projects={projects} />
+      {sectors.length > 0 && <SectorGrid sectors={sectors} />}
+      {projects.length > 0 && <FeaturedProjects projects={projects} />}
       <ReelsSection feedId={settings.beholdFeedId || "awDA3WLI489BQxzHqzAX"} />
-      <ProductsStrip products={products} />
+      {products.length > 0 && <ProductsStrip products={products} />}
       <MadrixStrip />
       <CTA />
     </>
