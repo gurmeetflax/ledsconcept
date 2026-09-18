@@ -55,29 +55,114 @@ const BRAND = {
   cyan: "#22e2ff",
   lime: "#c4ff3d",
   grad: "linear-gradient(90deg, #ff2bd6 0%, #22e2ff 100%)",
-  tagline: "The world of pixels is limitless",
 };
 const W = 1080;
 const H = 1350;
 
-// ---- Load project data from lib/sample-data.ts ------------------------------
-async function loadData() {
-  const srcPath = path.join(root, "lib", "sample-data.ts");
-  const raw = fs.readFileSync(srcPath, "utf8");
-  // Strip the trailing `export type ...` lines so the file is plain JS.
-  const js = raw
-    .split("\n")
-    .filter((l) => !l.trimStart().startsWith("export type"))
-    .join("\n");
-  const url = "data:text/javascript;base64," + Buffer.from(js).toString("base64");
-  return import(url);
+// ---- Content loading: live Sanity → snapshot → sample-data ------------------
+// Photos render whenever the image host is reachable; where it isn't (e.g. a
+// locked-down egress policy), each card falls back to an on-brand pixel grid.
+const DATASET = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
+const PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+const SNAPSHOT = path.join(root, "marketing", "sanity-snapshot.json");
+
+const FEATURED_QUERY = `*[_type == "project" && featured == true]|order(year desc)[0...6]{
+  title, "slug": slug.current, year, location,
+  "sector": sector->name, "image": heroImage.asset->url
+}`;
+const SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
+  tagline, email, phone, whatsapp, instagram
+}`;
+const SECTORS_QUERY = `*[_type == "sector"]|order(name asc).name`;
+
+async function sanityQuery(query) {
+  const host = `https://${PROJECT_ID}.apicdn.sanity.io`;
+  const url = `${host}/v2024-10-01/data/query/${DATASET}?query=${encodeURIComponent(query)}`;
+  const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+  if (!res.ok) throw new Error(`Sanity ${res.status}`);
+  return (await res.json()).result;
+}
+
+async function loadContent() {
+  // 1) Live Sanity (needs project id + reachable API).
+  if (PROJECT_ID) {
+    try {
+      const [projects, settings, sectors] = await Promise.all([
+        sanityQuery(FEATURED_QUERY),
+        sanityQuery(SETTINGS_QUERY),
+        sanityQuery(SECTORS_QUERY),
+      ]);
+      if (projects?.length) {
+        console.log(`Source: live Sanity (${PROJECT_ID}/${DATASET})`);
+        return normalize({ projects, settings, sectors });
+      }
+    } catch (e) {
+      console.log(`Live Sanity unavailable (${e.message}); trying snapshot…`);
+    }
+  }
+  // 2) Cached snapshot of the live content.
+  if (fs.existsSync(SNAPSHOT)) {
+    console.log("Source: marketing/sanity-snapshot.json");
+    return normalize(JSON.parse(fs.readFileSync(SNAPSHOT, "utf8")));
+  }
+  // 3) Sample fallback content from lib/sample-data.ts.
+  const src = fs.readFileSync(path.join(root, "lib", "sample-data.ts"), "utf8");
+  const js = src.split("\n").filter((l) => !l.trimStart().startsWith("export type")).join("\n");
+  const mod = await import("data:text/javascript;base64," + Buffer.from(js).toString("base64"));
+  console.log("Source: lib/sample-data.ts (sample content)");
+  return normalize({
+    projects: mod.sampleProjects.slice(0, 6),
+    settings: mod.sampleSiteSettings,
+    sectors: mod.sampleSectors.map((s) => s.name),
+  });
+}
+
+const titleCase = (s) => (s || "").replace(/\b\w/g, (m) => m.toUpperCase());
+
+function normalize({ projects, settings, sectors }) {
+  const s = settings || {};
+  const phone = (s.whatsapp || s.phone || "").replace(/\D/g, "");
+  return {
+    projects: (projects || []).map((p, i) => ({
+      title: p.title,
+      slug: p.slug || `project-${i + 1}`,
+      sector: p.sector || "",
+      location: titleCase(p.location),
+      year: p.year,
+      image: p.image,
+    })),
+    sectors: (sectors || []).filter(Boolean),
+    settings: {
+      tagline: (s.tagline || "The world of lights is limitless").replace(/\.\s*$/, ""),
+      email: s.email || "",
+      website: s.website || "www.ledsconcept.com",
+      phone: phone ? (phone.length === 10 ? "91" + phone : phone) : "",
+    },
+  };
+}
+
+// Human "nightclubs, live events & home theatres" phrase from the sector list.
+function sectorPhrase(sectors) {
+  const list = (sectors.length ? sectors : ["Nightclubs"]).map((x) => x.toLowerCase());
+  if (list.length === 1) return list[0];
+  return `${list.slice(0, -1).join(", ")} & ${list[list.length - 1]}`;
 }
 
 // ---- Best-effort image fetch → data URI -------------------------------------
+// For Sanity CDN assets, request a portrait crop sized for the card hero.
+function heroUrl(url) {
+  if (!url) return url;
+  if (url.includes("cdn.sanity.io")) {
+    const sep = url.includes("?") ? "&" : "?";
+    return `${url}${sep}w=1080&h=1350&fit=crop&crop=entropy&auto=format&q=82`;
+  }
+  return url;
+}
+
 async function fetchAsDataUri(url) {
   if (!url) return null;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+    const res = await fetch(heroUrl(url), { signal: AbortSignal.timeout(20000) });
     if (!res.ok) return null;
     const type = res.headers.get("content-type") || "image/jpeg";
     if (!type.startsWith("image/")) return null;
@@ -165,7 +250,7 @@ function wordmark(size = 34) {
   </div>`;
 }
 
-function projectCard({ project, photo }) {
+function projectCard({ project, photo, settings }) {
   const s = seed(project.slug || project.title);
   const bg = photo
     ? `<img class="photo" src="${photo}" /><div class="scrim"></div>`
@@ -203,8 +288,8 @@ function projectCard({ project, photo }) {
       display:flex;align-items:center;justify-content:space-between;
       border-top:1px solid rgba(255,255,255,.12);padding-top:26px">
       <div>
-        <div class="display" style="font-size:19px;font-weight:600;color:#fff">${BRAND.tagline}</div>
-        <div style="font-size:17px;color:rgba(255,255,255,.55);margin-top:4px">www.ledsconcept.com</div>
+        <div class="display" style="font-size:19px;font-weight:600;color:#fff">${settings.tagline}</div>
+        <div style="font-size:17px;color:rgba(255,255,255,.55);margin-top:4px">${settings.website}</div>
       </div>
       <div style="font-family:'Space Grotesk';font-size:18px;font-weight:600;color:${BRAND.ink};
         background:${BRAND.grad};padding:14px 22px;border-radius:999px;white-space:nowrap">
@@ -214,7 +299,7 @@ function projectCard({ project, photo }) {
   </div>`;
 }
 
-function coverCard({ projects, settings }) {
+function coverCard({ projects, settings, sectors }) {
   const rows = projects
     .slice(0, 6)
     .map(
@@ -247,7 +332,7 @@ function coverCard({ projects, settings }) {
         Pixel-mapped<br/><span class="neon-text">LED experiences</span>
       </div>
       <div style="margin-top:26px;font-size:27px;line-height:1.4;color:rgba(255,255,255,.78);max-width:820px">
-        Architectural facades, live events &amp; nightclubs — designed and installed by Madrix-licensed associates.
+        Pixel-mapped lighting for ${sectorPhrase(sectors)} — designed and installed by Madrix-licensed associates.
       </div>
     </div>
 
@@ -258,9 +343,9 @@ function coverCard({ projects, settings }) {
     <div style="position:absolute;left:64px;right:64px;bottom:56px;
       display:flex;align-items:center;justify-content:space-between">
       <div>
-        <div class="display" style="font-size:22px;font-weight:600">${BRAND.tagline}</div>
+        <div class="display" style="font-size:22px;font-weight:600">${settings.tagline}</div>
         <div style="font-size:18px;color:rgba(255,255,255,.55);margin-top:4px">
-          www.ledsconcept.com · ${settings.email}
+          ${settings.website}${settings.email ? " · " + settings.email : ""}
         </div>
       </div>
       <div style="font-family:'Space Grotesk';font-size:19px;font-weight:600;color:${BRAND.ink};
@@ -278,11 +363,13 @@ function page(inner) {
 }
 
 async function main() {
-  const data = await loadData();
-  const projects = data.sampleProjects;
-  const settings = data.sampleSiteSettings;
+  const { projects, settings, sectors } = await loadContent();
 
+  // Clear stale card PNGs so renamed/removed projects don't linger.
   fs.mkdirSync(outDir, { recursive: true });
+  for (const f of fs.readdirSync(outDir)) {
+    if (f.endsWith(".png")) fs.unlinkSync(path.join(outDir, f));
+  }
 
   console.log("Fetching project images (falls back to neon pixel art if blocked)…");
   const photos = await Promise.all(projects.map((p) => fetchAsDataUri(p.image)));
@@ -316,10 +403,13 @@ async function main() {
   };
 
   console.log("Rendering cards…");
-  await render("00-cover.png", coverCard({ projects, settings }));
+  await render("00-cover.png", coverCard({ projects, settings, sectors }));
   for (let i = 0; i < projects.length; i++) {
     const n = String(i + 1).padStart(2, "0");
-    await render(`${n}-${projects[i].slug}.png`, projectCard({ project: projects[i], photo: photos[i] }));
+    await render(
+      `${n}-${projects[i].slug}.png`,
+      projectCard({ project: projects[i], photo: photos[i], settings }),
+    );
   }
 
   await browser.close();

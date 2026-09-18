@@ -17,15 +17,31 @@ They forward cleanly on WhatsApp, Instagram Stories and status updates.
 pnpm whatsapp:cards      # or: node scripts/whatsapp-cards.mjs
 ```
 
-The generator (`scripts/whatsapp-cards.mjs`) reads project data straight from
-`lib/sample-data.ts`, so the cards stay in sync with the site's content. It
-renders with the project's neon brand palette (magenta → cyan gradient,
-Space Grotesk / Inter) using a headless Chromium.
+The generator (`scripts/whatsapp-cards.mjs`) renders with the project's neon
+brand palette (magenta → cyan gradient, Space Grotesk / Inter) using a headless
+Chromium.
+
+### Where the content comes from
+
+The generator loads featured projects + site settings in this order:
+
+1. **Live Sanity** — when `NEXT_PUBLIC_SANITY_PROJECT_ID` is set (and the Sanity
+   API is reachable). Set it before running to pull the real, current portfolio:
+   ```bash
+   NEXT_PUBLIC_SANITY_PROJECT_ID=6p56vgvm pnpm whatsapp:cards
+   ```
+2. **`marketing/sanity-snapshot.json`** — a cached copy of the live content, so
+   the real project names/locations/years render even without network/env.
+3. **`lib/sample-data.ts`** — the site's built-in sample content, last resort.
 
 ### Project photos
 
-Each card embeds the project's `image` when that URL is reachable, and falls
-back to an on-brand **neon pixel-grid** background when it isn't (e.g. offline,
-or when a host blocks server-side fetches). Once Sanity is live and serving
-real project photos, re-run the command and the spotlight cards will feature
-those images automatically.
+Each card embeds the project's hero image when that URL is reachable, and falls
+back to an on-brand **neon pixel-grid** background when it isn't. Sanity's image
+CDN (`cdn.sanity.io`) is blocked by egress policy inside Claude's sandbox, so
+cards generated there use the pixel fallback. **Run `pnpm whatsapp:cards` on your
+own machine (or in CI/Vercel) with the env var set** and the spotlight cards
+render with the real project photos.
+
+To refresh the snapshot after adding/editing projects in Sanity, re-query the
+featured projects + site settings and update `marketing/sanity-snapshot.json`.
