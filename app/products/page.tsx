@@ -26,6 +26,21 @@ export default async function ProductsPage({
       <p className="text-xs uppercase tracking-[0.3em] text-white/50">Hardware & control</p>
       <h1 className="mt-2 font-display text-3xl sm:text-4xl md:text-6xl">Products</h1>
 
+      {products.length === 0 ? (
+        <div className="mt-12 rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center md:p-16">
+          <h2 className="font-display text-2xl md:text-3xl">Catalogue coming soon</h2>
+          <p className="mx-auto mt-3 max-w-md text-white/60">
+            We supply LED screens, DMX bars, controllers and Madrix licenses. Tell us what you need and
+            we'll quote it directly.
+          </p>
+          <Link
+            href="/contact"
+            className="mt-8 inline-block rounded-full bg-neon-grad px-6 py-3 text-sm font-medium text-ink"
+          >
+            Request a quote
+          </Link>
+        </div>
+      ) : (
       <div className="mt-10 grid gap-10 md:grid-cols-[220px_1fr]">
         <aside className="space-y-1 md:sticky md:top-24 md:h-fit">
           <Link
@@ -69,6 +84,7 @@ export default async function ProductsPage({
           ))}
         </div>
       </div>
+      )}
     </div>
   );
 }
