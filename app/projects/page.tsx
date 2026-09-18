@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SanityImage } from "@/components/sanity-image";
 import { getAllProjects, getSectors } from "@/lib/content";
 
 export const revalidate = 60;
-export const metadata = { title: "Projects" };
+export const metadata: Metadata = {
+  title: "Projects",
+  description:
+    "Selected LED lighting projects by LEDs Concept — pixel-mapped nightclubs, architectural facades and event installations across India.",
+  alternates: { canonical: "/projects" },
+  openGraph: { url: "/projects", title: "Projects · LEDs Concept" },
+};
 
 export default async function ProjectsPage({
   searchParams,

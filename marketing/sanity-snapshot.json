@@ -1,0 +1,54 @@
+{
+  "_comment": "Snapshot of live LEDs Concept Sanity content (project 6p56vgvm, dataset production), captured for offline card generation. The generator prefers live Sanity when NEXT_PUBLIC_SANITY_PROJECT_ID is set and the API is reachable; it falls back to this snapshot, then to lib/sample-data.ts. Regenerate the snapshot by re-querying Sanity.",
+  "settings": {
+    "tagline": "The world of lights is limitless",
+    "email": "info@ledsconcept.com",
+    "phone": "9820556084",
+    "whatsapp": "9820556084",
+    "instagram": "https://www.instagram.com/ledsconcept",
+    "website": "www.ledsconcept.com"
+  },
+  "sectors": ["Nightclubs", "Home Theatre"],
+  "projects": [
+    {
+      "title": "Flow",
+      "slug": "flow-goa",
+      "sector": "Nightclubs",
+      "location": "Goa",
+      "year": 2024,
+      "image": "https://cdn.sanity.io/images/6p56vgvm/production/840c26789d139c14cdd513f259c1d5f5ccd430d1-6000x4000.jpg"
+    },
+    {
+      "title": "Rage",
+      "slug": "rage",
+      "sector": "Nightclubs",
+      "location": "Hyderabad",
+      "year": 2022,
+      "image": "https://cdn.sanity.io/images/6p56vgvm/production/24a30de0543d862e778a00221bb8de3c0e3a7efc-6224x4672.jpg"
+    },
+    {
+      "title": "Radioactive",
+      "slug": "radioactive",
+      "sector": "Nightclubs",
+      "location": "Delhi",
+      "year": 2022,
+      "image": "https://cdn.sanity.io/images/6p56vgvm/production/0c1a83201cd09e98e615098c96fe6f94eb8eaf27-1570x870.png"
+    },
+    {
+      "title": "Malibu",
+      "slug": "malibu",
+      "sector": "Nightclubs",
+      "location": "Gorakhpur",
+      "year": 2019,
+      "image": "https://cdn.sanity.io/images/6p56vgvm/production/41ae5fa94103a6849ee3c010c3a09374d0885155-2460x1328.png"
+    },
+    {
+      "title": "Tryst",
+      "slug": "tryst",
+      "sector": "Nightclubs",
+      "location": "Mumbai",
+      "year": 2008,
+      "image": "https://cdn.sanity.io/images/6p56vgvm/production/c691671200605749507b9293a7e5c16e5056800f-768x912.jpg"
+    }
+  ]
+}

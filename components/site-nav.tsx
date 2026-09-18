@@ -21,7 +21,7 @@ export function SiteNav() {
         <Link href="/" className="font-display text-lg tracking-tight">
           <span className="neon-text">LEDs</span> Concept
         </Link>
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
           {links.map((l) => (
             <Link key={l.href} href={l.href} className="text-sm text-white/70 transition hover:text-white">
               {l.label}
@@ -43,7 +43,7 @@ export function SiteNav() {
           {open ? <X className="size-6" /> : <Menu className="size-6" />}
         </button>
       </div>
-      <div className={cn("md:hidden", open ? "block" : "hidden")}>
+      <nav aria-label="Mobile" className={cn("md:hidden", open ? "block" : "hidden")}>
         <div className="container-page flex flex-col gap-1 pb-4">
           {links.map((l) => (
             <Link
@@ -63,7 +63,7 @@ export function SiteNav() {
             Get a quote
           </Link>
         </div>
-      </div>
+      </nav>
     </header>
   );
 }

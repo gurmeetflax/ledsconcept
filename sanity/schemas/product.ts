@@ -9,6 +9,14 @@ export const product = defineType({
     { name: "slug", title: "Slug", type: "slug", options: { source: "title", maxLength: 96 }, validation: (r) => r.required() },
     { name: "category", title: "Category", type: "reference", to: [{ type: "category" }] },
     { name: "shortDesc", title: "Short description", type: "text", rows: 2 },
+    {
+      name: "metaDescription",
+      title: "SEO meta description (optional)",
+      type: "text",
+      rows: 2,
+      description: "Overrides the short description for search/social snippets. Leave blank to use the short description.",
+      validation: (r) => r.max(200),
+    },
     { name: "body", title: "Body", type: "array", of: [{ type: "block" }] },
     { name: "images", title: "Images", type: "array", of: [{ type: "image", options: { hotspot: true } }] },
     {

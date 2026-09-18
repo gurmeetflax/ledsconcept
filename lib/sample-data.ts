@@ -136,7 +136,10 @@ export const sampleProductCategories = [
 ];
 
 export const sampleSiteSettings = {
-  tagline: "The world of pixels is limitless",
+  tagline: "The world of lights is limitless",
+  metaDescription: "",
+  ogImage: "",
+  keywords: [] as string[],
   address: "Mumbai, India",
   phone: "+91 00000 00000",
   whatsapp: "+91 00000 00000",

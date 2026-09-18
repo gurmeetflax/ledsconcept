@@ -5,9 +5,17 @@ import { ProductsStrip } from "@/components/sections/products-strip";
 import { ReelsSection } from "@/components/sections/reels-section";
 import { MadrixStrip } from "@/components/sections/madrix-strip";
 import { CTA } from "@/components/sections/cta";
+import type { Metadata } from "next";
 import { getFeaturedProjects, getProducts, getSectors, getSiteSettings } from "@/lib/content";
+import { SITE } from "@/lib/seo";
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  description: SITE.description,
+  alternates: { canonical: "/" },
+  openGraph: { url: SITE.url, title: `${SITE.name} — ${SITE.tagline}`, description: SITE.description },
+};
 
 export default async function HomePage() {
   const [sectors, projects, products, settings] = await Promise.all([

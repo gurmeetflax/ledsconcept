@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { HeroYouTubeBg } from "./hero-youtube-bg";
 
 export function Hero({ youtubeId, videoUrl }: { youtubeId?: string; videoUrl?: string }) {
   return (
@@ -16,16 +17,11 @@ export function Hero({ youtubeId, videoUrl }: { youtubeId?: string; videoUrl?: s
           aria-hidden
         />
       ) : youtubeId ? (
-        <iframe
-          className="pointer-events-none absolute inset-0 h-full w-full scale-[1.4]"
-          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&playsinline=1&playlist=${youtubeId}`}
-          allow="autoplay; encrypted-media"
-          aria-hidden
-        />
+        <HeroYouTubeBg youtubeId={youtubeId} />
       ) : (
         <Image
           src="https://images.unsplash.com/photo-1518709268805-4e9042af2176"
-          alt=""
+          alt="Pixel-mapped LED lighting installation by LEDs Concept"
           fill
           priority
           sizes="100vw"
@@ -36,7 +32,7 @@ export function Hero({ youtubeId, videoUrl }: { youtubeId?: string; videoUrl?: s
       <div className="relative z-10 container-page flex min-h-[80vh] flex-col justify-end pb-12 pt-24 md:min-h-[88vh] md:pb-20 md:pt-32">
         <p className="mb-3 text-[10px] uppercase tracking-[0.4em] text-white/60 md:mb-4 md:text-xs">Pixel · Light · Control</p>
         <h1 className="max-w-4xl font-display text-4xl leading-[1.05] text-balance sm:text-6xl md:text-7xl lg:text-8xl">
-          The world of pixels is{" "}
+          The world of lights is{" "}
           <span className="neon-text">limitless</span>.
         </h1>
         <p className="mt-5 max-w-xl text-sm text-white/70 md:mt-6 md:text-lg">

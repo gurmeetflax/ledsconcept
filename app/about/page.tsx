@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata = { title: "About" };
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "LEDs Concept is a specialist LED lighting studio and Madrix-licensed associate, covering concept, design, supply, install and control for architectural, event and nightclub projects.",
+  alternates: { canonical: "/about" },
+  openGraph: { url: "/about", title: "About · LEDs Concept" },
+};
 
 const values = [
   { t: "Concept", d: "We start with the idea — what should this space feel like at peak moment?" },

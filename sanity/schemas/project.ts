@@ -14,6 +14,14 @@ export const project = defineType({
     { name: "location", title: "Location", type: "string" },
     { name: "summary", title: "Summary", type: "text", rows: 3 },
     {
+      name: "metaDescription",
+      title: "SEO meta description (optional)",
+      type: "text",
+      rows: 2,
+      description: "Overrides the summary for search/social snippets. Leave blank to use the summary.",
+      validation: (r) => r.max(200),
+    },
+    {
       name: "body",
       title: "Case study",
       type: "array",

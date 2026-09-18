@@ -36,14 +36,14 @@ export const queries = {
     "image": heroImage.asset->url
   }`,
   projectBySlug: `*[_type == "project" && slug.current == $slug][0]{
-    _id, title, "slug": slug.current, year, location, summary, body, zones, video, gearUsed,
+    _id, title, "slug": slug.current, year, location, summary, metaDescription, body, zones, video, gearUsed,
     "sector": sector->name, "image": heroImage.asset->url,
     "headerVideo": headerVideo.asset->url,
     "gallery": gallery[].asset->url
   }`,
   sectors: `*[_type == "sector"]|order(name asc){ _id, name, "slug": slug.current, description, "image": image.asset->url }`,
   products: `*[_type == "product"]|order(title asc){
-    _id, title, "slug": slug.current, shortDesc, "image": images[0].asset->url,
+    _id, title, "slug": slug.current, shortDesc, metaDescription, "image": images[0].asset->url,
     "category": category->name, "categorySlug": category->slug.current
   }`,
   productCategories: `*[_type == "category"]|order(name asc){ _id, name, "slug": slug.current }`,
@@ -57,6 +57,7 @@ export const queries = {
     tagline, address, phone, email, whatsapp, whatsappMessage,
     instagram, youtube, facebook, twitter,
     instagramWidgetId, beholdFeedId, youtubeHeroId,
+    metaDescription, keywords, "ogImage": ogImage.asset->url,
     "heroVideo": heroVideo.asset->url,
     "brochure": brochure.asset->url
   }`,

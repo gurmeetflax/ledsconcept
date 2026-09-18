@@ -1,10 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LiteYouTube } from "@/components/lite-youtube";
 import { LightboxGrid } from "@/components/lightbox-grid";
 import { SanityImage } from "@/components/sanity-image";
 import { CaseStudy } from "@/components/case-study";
+import { JsonLd } from "@/components/json-ld";
 import { getAllProjects, getProjectBySlug } from "@/lib/content";
+import { SITE, absoluteUrl, ogImage, metaDescription } from "@/lib/seo";
 import type { PortableTextBlock } from "@portabletext/react";
 
 export const revalidate = 60;
@@ -12,6 +15,48 @@ export const revalidate = 60;
 export async function generateStaticParams() {
   const all = await getAllProjects();
   return all.map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const p = (await getProjectBySlug(slug)) as
+    | {
+        title: string;
+        sector?: string;
+        location?: string;
+        year?: number;
+        summary?: string;
+        metaDescription?: string;
+        image?: string;
+      }
+    | null;
+  if (!p) return { title: "Project not found" };
+
+  const title = `${p.title}${p.sector ? ` — ${p.sector} LED lighting` : ""}`;
+  const bits = [p.sector, p.location, p.year].filter(Boolean).join(" · ");
+  const description = metaDescription(
+    p.metaDescription || p.summary || `${p.title}: ${bits} LED lighting project by ${SITE.name}.`,
+  );
+  const og = ogImage(p.image);
+  const url = `/projects/${slug}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title,
+      description,
+      ...(og ? { images: [{ url: og, width: 1200, height: 630, alt: p.title }] } : {}),
+    },
+    twitter: { card: "summary_large_image", title, description, ...(og ? { images: [og] } : {}) },
+  };
 }
 
 export default async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) {
@@ -34,8 +79,29 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
     | null;
   if (!p) notFound();
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
+      { "@type": "ListItem", position: 2, name: "Projects", item: absoluteUrl("/projects") },
+      { "@type": "ListItem", position: 3, name: p.title, item: absoluteUrl(`/projects/${slug}`) },
+    ],
+  };
+  const projectLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: p.title,
+    ...(p.summary ? { description: p.summary } : {}),
+    ...(p.image ? { image: ogImage(p.image) } : {}),
+    ...(p.location ? { locationCreated: { "@type": "Place", name: p.location } } : {}),
+    ...(p.year ? { dateCreated: String(p.year) } : {}),
+    creator: { "@type": "Organization", name: SITE.name, url: SITE.url },
+  };
+
   return (
     <article>
+      <JsonLd data={[breadcrumbLd, projectLd]} />
       <div className="relative h-[60vh] min-h-[420px] w-full overflow-hidden">
         {p.headerVideo ? (
           <video
@@ -51,7 +117,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
         ) : (
           <SanityImage
             src={p.image}
-            alt=""
+            alt={`${p.title} — ${p.sector} LED lighting installation in ${p.location}`}
             fill
             priority
             sizes="100vw"
