@@ -6,6 +6,27 @@ export const siteSettings = defineType({
   type: "document",
   fields: [
     { name: "tagline", title: "Tagline", type: "string" },
+    {
+      name: "metaDescription",
+      title: "SEO · Default meta description",
+      type: "text",
+      rows: 3,
+      description: "Used as the site-wide search/social description when a page has none. Aim for 140–160 characters.",
+      validation: (r) => r.max(200),
+    },
+    {
+      name: "ogImage",
+      title: "SEO · Default social share image",
+      type: "image",
+      description: "Shown when a link is shared (WhatsApp, Facebook, X). Recommended 1200×630. Falls back to an auto-generated card.",
+    },
+    {
+      name: "keywords",
+      title: "SEO · Keywords",
+      type: "array",
+      of: [{ type: "string" }],
+      options: { layout: "tags" },
+    },
     { name: "address", title: "Address", type: "text", rows: 2 },
     { name: "phone", title: "Phone", type: "string" },
     {

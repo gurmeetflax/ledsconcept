@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SanityImage } from "@/components/sanity-image";
 import { getProductCategories, getProducts } from "@/lib/content";
 
 export const revalidate = 60;
-export const metadata = { title: "Products" };
+export const metadata: Metadata = {
+  title: "Products",
+  description:
+    "LED hardware and control gear supplied by LEDs Concept — pixel tubes, LED strips, DMX/Art-Net controllers and Madrix pixel-mapping licenses.",
+  alternates: { canonical: "/products" },
+  openGraph: { url: "/products", title: "Products · LEDs Concept" },
+};
 
 export default async function ProductsPage({
   searchParams,

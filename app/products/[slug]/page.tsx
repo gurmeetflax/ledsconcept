@@ -1,13 +1,50 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SanityImage } from "@/components/sanity-image";
+import { JsonLd } from "@/components/json-ld";
 import { getProducts } from "@/lib/content";
-import { sampleProducts } from "@/lib/sample-data";
+import { SITE, absoluteUrl, ogImage, metaDescription } from "@/lib/seo";
 
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-  return sampleProducts.map((p) => ({ slug: p.slug }));
+  const products = await getProducts();
+  return products.map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const products = await getProducts();
+  const p = products.find((x) => x.slug === slug) as
+    | (typeof products)[number] & { metaDescription?: string }
+    | undefined;
+  if (!p) return { title: "Product not found" };
+
+  const title = `${p.title}${p.category ? ` — ${p.category}` : ""}`;
+  const description = metaDescription(
+    p.metaDescription || p.shortDesc || `${p.title} — LED hardware from ${SITE.name}.`,
+  );
+  const og = ogImage(p.image);
+  const url = `/products/${slug}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      url,
+      title,
+      description,
+      ...(og ? { images: [{ url: og, width: 1200, height: 630, alt: p.title }] } : {}),
+    },
+    twitter: { card: "summary_large_image", title, description, ...(og ? { images: [og] } : {}) },
+  };
 }
 
 export default async function ProductDetail({ params }: { params: Promise<{ slug: string }> }) {
@@ -16,8 +53,28 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
   const p = products.find((x) => x.slug === slug);
   if (!p) notFound();
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
+      { "@type": "ListItem", position: 2, name: "Products", item: absoluteUrl("/products") },
+      { "@type": "ListItem", position: 3, name: p.title, item: absoluteUrl(`/products/${slug}`) },
+    ],
+  };
+  const productLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: p.title,
+    ...(p.shortDesc ? { description: p.shortDesc } : {}),
+    ...(p.image ? { image: ogImage(p.image) } : {}),
+    ...(p.category ? { category: p.category } : {}),
+    brand: { "@type": "Brand", name: SITE.name },
+  };
+
   return (
     <div className="container-page py-16 md:py-24">
+      <JsonLd data={[breadcrumbLd, productLd]} />
       <Link href="/products" className="text-sm text-white/60 hover:text-white">← Products</Link>
       <div className="mt-6 grid gap-10 md:grid-cols-2">
         <div className="relative aspect-square overflow-hidden rounded-2xl">

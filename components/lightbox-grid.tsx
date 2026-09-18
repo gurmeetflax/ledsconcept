@@ -9,15 +9,19 @@ import "yet-another-react-lightbox/plugins/counter.css";
 import { SanityImage } from "./sanity-image";
 
 type Layout = "grid" | "masonry";
+type Item = string | { src: string; alt?: string };
 
 const ASPECTS = ["aspect-[3/4]", "aspect-square", "aspect-[4/5]"];
 
-export function LightboxGrid({ items, layout }: { items: string[]; layout: Layout }) {
+export function LightboxGrid({ items, layout }: { items: Item[]; layout: Layout }) {
   const [index, setIndex] = useState(-1);
 
   if (!items.length) return null;
 
-  const slides = items.map((src) => ({ src }));
+  const normalized = items.map((it) =>
+    typeof it === "string" ? { src: it, alt: "" } : { src: it.src, alt: it.alt ?? "" },
+  );
+  const slides = normalized.map(({ src, alt }) => ({ src, alt }));
 
   const tileSizes =
     layout === "masonry"
@@ -33,7 +37,7 @@ export function LightboxGrid({ items, layout }: { items: string[]; layout: Layou
             : "grid grid-cols-2 gap-3 md:grid-cols-3"
         }
       >
-        {items.map((src, i) => (
+        {normalized.map(({ src, alt }, i) => (
           <button
             key={i}
             type="button"
@@ -44,7 +48,7 @@ export function LightboxGrid({ items, layout }: { items: string[]; layout: Layou
           >
             <SanityImage
               src={src}
-              alt=""
+              alt={alt}
               fill
               sizes={tileSizes}
               className="object-cover transition duration-500 group-hover:scale-[1.03]"

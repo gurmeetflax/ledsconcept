@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { getSiteSettings } from "@/lib/content";
 
-export const metadata = { title: "Contact" };
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Get in touch with LEDs Concept for LED lighting design, supply and installation. Request a quote for your nightclub, venue, home theatre or architectural project.",
+  alternates: { canonical: "/contact" },
+  openGraph: { url: "/contact", title: "Contact · LEDs Concept" },
+};
 
 export default async function ContactPage() {
   const s = await getSiteSettings();
