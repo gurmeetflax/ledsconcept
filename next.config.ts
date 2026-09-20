@@ -11,11 +11,10 @@ const securityHeaders = [
 
 const config: NextConfig = {
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "cdn.sanity.io" },
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "i.ytimg.com" },
-    ],
+    // Resize/reformat on the source CDN via lib/image-loader.ts instead of the
+    // built-in optimizer. remotePatterns is unused with a custom loader.
+    loader: "custom",
+    loaderFile: "./lib/image-loader.ts",
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

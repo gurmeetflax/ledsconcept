@@ -8,6 +8,7 @@ import { CaseStudy } from "@/components/case-study";
 import { JsonLd } from "@/components/json-ld";
 import { getAllProjects, getProjectBySlug } from "@/lib/content";
 import { SITE, absoluteUrl, ogImage, metaDescription } from "@/lib/seo";
+import { sanitySized } from "@/lib/image";
 import type { PortableTextBlock } from "@portabletext/react";
 
 export const revalidate = 60;
@@ -107,7 +108,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
           <video
             className="pointer-events-none absolute inset-0 h-full w-full object-cover"
             src={p.headerVideo}
-            poster={p.image}
+            poster={sanitySized(p.image, 1600)}
             autoPlay
             muted
             loop
