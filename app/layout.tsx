@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { JsonLd } from "@/components/json-ld";
 import { getSiteSettings } from "@/lib/content";
-import { SITE, absoluteUrl, ogImage } from "@/lib/seo";
+import { SITE, BUSINESS, absoluteUrl, ogImage } from "@/lib/seo";
 
 const body = Inter({ subsets: ["latin"], variable: "--font-body" });
 const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-display" });
@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       url: SITE.url,
-      siteName: SITE.name,
+      siteName: BUSINESS.legalName,
       locale: SITE.locale,
       title,
       description,
@@ -52,13 +52,14 @@ function organizationLd(settings: Awaited<ReturnType<typeof getSiteSettings>>) {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": `${SITE.url}/#business`,
-    name: SITE.name,
+    name: BUSINESS.legalName,
+    alternateName: SITE.name,
     url: SITE.url,
     image: settings.ogImage ? ogImage(settings.ogImage) : absoluteUrl("/opengraph-image"),
     description: settings.metaDescription?.trim() || SITE.description,
     slogan: settings.tagline || SITE.tagline,
     ...(settings.email ? { email: settings.email } : {}),
-    ...(settings.phone ? { telephone: settings.phone } : {}),
+    telephone: BUSINESS.whatsapp,
     ...(settings.address
       ? { address: { "@type": "PostalAddress", streetAddress: settings.address, addressCountry: "IN" } }
       : { areaServed: "IN" }),
@@ -76,8 +77,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <main>{children}</main>
         <SiteFooter settings={settings} />
         <WhatsAppButton
-          number={settings.whatsapp || settings.phone}
-          message={settings.whatsappMessage}
+          number={BUSINESS.whatsapp}
+          message={BUSINESS.whatsappMessage}
         />
       </body>
     </html>
