@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Instagram, Youtube, Facebook, Twitter } from "lucide-react";
 import type { SiteSettings } from "@/lib/sample-data";
+import { BUSINESS } from "@/lib/seo";
 
 export function SiteFooter({ settings }: { settings: SiteSettings }) {
   return (
@@ -27,7 +28,12 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
           <h4 className="mb-3 text-xs uppercase tracking-widest text-white/50">Reach us</h4>
           <ul className="space-y-2 text-sm text-white/70">
             <li>{settings.address}</li>
-            <li><a href={`tel:${settings.phone}`}>{settings.phone}</a></li>
+            <li><a href={BUSINESS.whatsappTel}>{BUSINESS.whatsapp}</a></li>
+            <li>
+              <a href={BUSINESS.whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                WhatsApp: {BUSINESS.whatsapp}
+              </a>
+            </li>
             <li><a href={`mailto:${settings.email}`}>{settings.email}</a></li>
           </ul>
         </div>
@@ -47,7 +53,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
         </div>
       </div>
       <div className="border-t border-white/5 py-5 text-center text-xs text-white/40">
-        © {new Date().getFullYear()} LEDs Concept. All rights reserved.
+        © {new Date().getFullYear()} {BUSINESS.legalName}. All rights reserved.
       </div>
     </footer>
   );

@@ -22,6 +22,22 @@ export const SITE = {
   locale: "en_IN",
 } as const;
 
+/**
+ * Authoritative business identity used for Meta / WhatsApp Business
+ * verification and all customer enquiries. These are hard-coded (not
+ * CMS-driven) so the legal name and WhatsApp number are always consistent
+ * across the site and match our WhatsApp Business display name.
+ */
+export const BUSINESS = {
+  legalName: "Leds Concept Lighting",
+  whatsapp: "+91 96396 33366",
+  whatsappTel: "tel:+919639633366",
+  whatsappMessage: "Hi Leds Concept, I'm planning lighting for my venue",
+  whatsappUrl:
+    "https://wa.me/919639633366?text=Hi%20Leds%20Concept%2C%20I%27m%20planning%20lighting%20for%20my%20venue",
+  website: "https://ledsconcept.com",
+} as const;
+
 /** Resolve a path (or already-absolute URL) to an absolute site URL. */
 export function absoluteUrl(path = "/"): string {
   if (/^https?:\/\//.test(path)) return path;

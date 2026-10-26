@@ -1,30 +1,16 @@
 import Image, { type ImageProps } from "next/image";
 
+// Thin wrapper over next/image for Sanity/remote sources. Resizing and
+// reformatting is handled globally by lib/image-loader.ts (configured via
+// next.config.ts `images.loaderFile`), so nothing is passed per-image here —
+// that keeps this usable from Server Components.
+
 type Props = Omit<ImageProps, "src" | "alt"> & {
   src: string | undefined | null;
   alt?: string;
 };
 
-function normalize(src: string): string {
-  if (!src.includes("cdn.sanity.io")) return src;
-  const [base, query = ""] = src.split("?");
-  const params = new URLSearchParams(query);
-  params.delete("w");
-  params.delete("h");
-  params.set("auto", "format");
-  params.set("fit", "max");
-  return params.toString() ? `${base}?${params.toString()}` : base;
-}
-
-export function SanityImage({ src, alt = "", quality = 75, sizes, ...rest }: Props) {
+export function SanityImage({ src, alt = "", quality = 72, sizes, ...rest }: Props) {
   if (!src) return null;
-  return (
-    <Image
-      {...rest}
-      src={normalize(src)}
-      alt={alt}
-      quality={quality}
-      sizes={sizes}
-    />
-  );
+  return <Image {...rest} src={src.split("?")[0]} alt={alt} quality={quality} sizes={sizes} />;
 }

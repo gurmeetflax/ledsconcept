@@ -7,6 +7,7 @@ import Counter from "yet-another-react-lightbox/plugins/counter";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/counter.css";
 import { SanityImage } from "./sanity-image";
+import { sanitySized } from "@/lib/image";
 
 type Layout = "grid" | "masonry";
 type Item = string | { src: string; alt?: string };
@@ -21,7 +22,8 @@ export function LightboxGrid({ items, layout }: { items: Item[]; layout: Layout 
   const normalized = items.map((it) =>
     typeof it === "string" ? { src: it, alt: "" } : { src: it.src, alt: it.alt ?? "" },
   );
-  const slides = normalized.map(({ src, alt }) => ({ src, alt }));
+  // Cap the full-screen lightbox image at ~2000px instead of the raw original.
+  const slides = normalized.map(({ src, alt }) => ({ src: sanitySized(src, 2000, 80) ?? src, alt }));
 
   const tileSizes =
     layout === "masonry"
